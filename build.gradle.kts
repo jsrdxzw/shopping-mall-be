@@ -30,6 +30,7 @@ dependencies {
     implementation("com.baomidou:mybatis-plus-boot-starter:3.4.0")
     implementation("com.baomidou:mybatis-plus-generator:3.4.0")
     implementation("org.freemarker:freemarker")
+    implementation("com.github.xiaoymin:knife4j-spring-boot-starter:2.0.4")
     runtimeOnly("mysql:mysql-connector-java")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
