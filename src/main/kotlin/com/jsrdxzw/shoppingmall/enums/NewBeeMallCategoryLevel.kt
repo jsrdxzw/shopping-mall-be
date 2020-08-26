@@ -14,9 +14,9 @@ enum class NewBeeMallCategoryLevel(val level: Int, val desc: String) {
 
     companion object {
         fun getIndexConfigTypeByType(level: Int?): NewBeeMallCategoryLevel {
-            level?.let { levelInner ->
-                return values().find { it.level == levelInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("level不能为空")
+            return level?.let { levelInner ->
+                values().find { it.level == levelInner } ?: DEFAULT
+            } ?: throw NewBeeMallException("分类不能为空")
         }
     }
 }

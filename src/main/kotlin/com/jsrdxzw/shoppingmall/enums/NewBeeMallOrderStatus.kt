@@ -19,8 +19,8 @@ enum class NewBeeMallOrderStatus(val orderStatus: Int, val desc: String) {
 
     companion object {
         fun getNewBeeMallOrderStatusByStatus(orderStatus: Int?): NewBeeMallOrderStatus {
-            orderStatus?.let { status ->
-                return values().find { it.orderStatus == status } ?: DEFAULT
+            return orderStatus?.let { status ->
+                values().find { it.orderStatus == status } ?: DEFAULT
             } ?: throw NewBeeMallException("订单状态不能为空")
         }
     }

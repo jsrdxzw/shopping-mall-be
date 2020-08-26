@@ -39,9 +39,9 @@ enum class IndexConfigType(val type: Int, val desc: String) {
 
     companion object {
         fun getIndexConfigTypeByType(type: Int?): IndexConfigType {
-            type?.let { typeInner ->
-                return values().find { it.type == typeInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("type不能为空")
+            return type?.let { typeInner ->
+                values().find { it.type == typeInner } ?: DEFAULT
+            } ?: throw NewBeeMallException("首页类型不能为空")
         }
     }
 }
