@@ -1,6 +1,6 @@
 package com.jsrdxzw.shoppingmall.enums
 
-import com.jsrdxzw.shoppingmall.exception.NewBeeMallException
+import com.jsrdxzw.shoppingmall.exception.MallException
 
 /**
  * @author  xuzhiwei
@@ -25,23 +25,23 @@ enum class IndexConfigType(val type: Int, val desc: String) {
     /**
      * (首页)热销商品
      */
-    INDEX_GOODS_HOT(3, "INDEX_GOODS_HOTS"),
+    INDEX_MERCHANDISE_HOT(3, "INDEX_MERCHANDISE_HOTS"),
 
     /**
      * (首页)新品上线
      */
-    INDEX_GOODS_NEW(4, "INDEX_GOODS_NEW"),
+    INDEX_MERCHANDISE_NEW(4, "INDEX_MERCHANDISE_NEW"),
 
     /**
      * (首页)为你推荐
      */
-    INDEX_GOODS_RECOMMEND(5, "INDEX_GOODS_RECOMMEND");
+    INDEX_MERCHANDISE_RECOMMEND(5, "INDEX_MERCHANDISE_RECOMMEND");
 
     companion object {
         fun getIndexConfigTypeByType(type: Int?): IndexConfigType {
             return type?.let { typeInner ->
                 values().find { it.type == typeInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("首页类型不能为空")
+            } ?: throw MallException("首页类型不能为空")
         }
     }
 }

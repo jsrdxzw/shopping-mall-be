@@ -10,7 +10,7 @@ import java.io.Serializable
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
 class MallOrderItem : Serializable {
 
@@ -29,7 +29,7 @@ class MallOrderItem : Serializable {
     /**
      * 关联商品id
      */
-    var goodsId: Long? = null
+    var merchandiseId: Long? = null
 
     /**
      * 下单时商品的名称(订单快照)
@@ -61,7 +61,7 @@ class MallOrderItem : Serializable {
         return "MallOrderItem{" +
         "id=" + id +
         ", orderId=" + orderId +
-        ", goodsId=" + goodsId +
+        ", merchandiseId=" + merchandiseId +
         ", goodsName=" + goodsName +
         ", goodsCoverImg=" + goodsCoverImg +
         ", sellingPrice=" + sellingPrice +

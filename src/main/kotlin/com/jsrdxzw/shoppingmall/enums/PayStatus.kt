@@ -1,6 +1,6 @@
 package com.jsrdxzw.shoppingmall.enums
 
-import com.jsrdxzw.shoppingmall.exception.NewBeeMallException
+import com.jsrdxzw.shoppingmall.exception.MallException
 
 /**
  * @author  xuzhiwei
@@ -15,7 +15,7 @@ enum class PayStatus(val payStatus: Int, val desc: String) {
         fun getPayStatusByStatus(payStatus: Int?): PayStatus {
             return payStatus?.let { payStatusInner ->
                 values().find { it.payStatus == payStatusInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("支付状态不能为空")
+            } ?: throw MallException("支付状态不能为空")
         }
     }
 }

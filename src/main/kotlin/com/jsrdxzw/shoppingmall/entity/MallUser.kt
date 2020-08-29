@@ -10,7 +10,7 @@ import java.io.Serializable
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
 class MallUser : Serializable {
 

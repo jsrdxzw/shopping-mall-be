@@ -16,11 +16,11 @@ object Constants {
 
     const val SEARCH_CATEGORY_NUMBER = 8 //搜索页一级分类的最大数量
 
-    const val INDEX_GOODS_HOT_NUMBER = 4 //首页热卖商品数量
+    const val INDEX_MERCHANDISE_HOT_NUMBER = 4 //首页热卖商品数量
 
-    const val INDEX_GOODS_NEW_NUMBER = 5 //首页新品数量
+    const val INDEX_MERCHANDISE_NEW_NUMBER = 5 //首页新品数量
 
-    const val INDEX_GOODS_RECOMMEND_NUMBER = 10 //首页推荐商品数量
+    const val INDEX_MERCHANDISE_RECOMMEND_NUMBER = 10 //首页推荐商品数量
 
     const val SHOPPING_CART_ITEM_TOTAL_NUMBER = 20 //购物车中商品的最大数量(可根据自身需求修改)
 
@@ -28,7 +28,7 @@ object Constants {
 
     const val MALL_USER_SESSION_KEY = "newBeeMallUser" //session中user的key
 
-    const val GOODS_SEARCH_PAGE_LIMIT = 10 //搜索分页的默认条数(每页10条)
+    const val MERCHANDISE_SEARCH_PAGE_LIMIT = 10 //搜索分页的默认条数(每页10条)
 
     const val SHOPPING_CART_PAGE_LIMIT = 5 //购物车分页的默认条数(每页5条)
 

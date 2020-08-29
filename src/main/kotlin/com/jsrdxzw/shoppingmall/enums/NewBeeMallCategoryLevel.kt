@@ -1,6 +1,6 @@
 package com.jsrdxzw.shoppingmall.enums
 
-import com.jsrdxzw.shoppingmall.exception.NewBeeMallException
+import com.jsrdxzw.shoppingmall.exception.MallException
 
 /**
  * @author  xuzhiwei
@@ -16,7 +16,7 @@ enum class NewBeeMallCategoryLevel(val level: Int, val desc: String) {
         fun getIndexConfigTypeByType(level: Int?): NewBeeMallCategoryLevel {
             return level?.let { levelInner ->
                 values().find { it.level == levelInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("分类不能为空")
+            } ?: throw MallException("分类不能为空")
         }
     }
 }

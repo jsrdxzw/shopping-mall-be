@@ -2,6 +2,7 @@ package com.jsrdxzw.shoppingmall.mapper;
 
 import com.jsrdxzw.shoppingmall.entity.MallIndexConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param
 
 /**
  * <p>
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
-interface MallIndexConfigMapper : BaseMapper<MallIndexConfig>
+interface MallIndexConfigMapper : BaseMapper<MallIndexConfig> {
+    fun findIndexConfigsByTypeAndNumber(@Param("type") type: Int, @Param("number") indexMerchandiseHotNumber: Int): List<MallIndexConfig>
+}

@@ -10,7 +10,7 @@ import java.io.Serializable
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
 class MallIndexConfig : Serializable {
 
@@ -34,7 +34,7 @@ class MallIndexConfig : Serializable {
     /**
      * 商品id 默认为0
      */
-    var goodsId: Long? = null
+    var merchandiseId: Long? = null
 
     /**
      * 点击后的跳转地址(默认不跳转)
@@ -77,7 +77,7 @@ class MallIndexConfig : Serializable {
         "id=" + id +
         ", configName=" + configName +
         ", configType=" + configType +
-        ", goodsId=" + goodsId +
+        ", merchandiseId=" + merchandiseId +
         ", redirectUrl=" + redirectUrl +
         ", configRank=" + configRank +
         ", isDeleted=" + isDeleted +

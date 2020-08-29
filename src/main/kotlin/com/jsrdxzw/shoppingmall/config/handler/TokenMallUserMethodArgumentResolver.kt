@@ -5,7 +5,7 @@ import com.jsrdxzw.shoppingmall.annotation.TokenToMallUser
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.MallUserToken
 import com.jsrdxzw.shoppingmall.enums.ServiceResult
-import com.jsrdxzw.shoppingmall.exception.NewBeeMallException
+import com.jsrdxzw.shoppingmall.exception.MallException
 import com.jsrdxzw.shoppingmall.mapper.MallUserMapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserTokenMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,16 +42,16 @@ class TokenMallUserMethodArgumentResolver : HandlerMethodArgumentResolver {
                         LambdaQueryWrapper<MallUserToken>().eq(MallUserToken::token, token)
                 )
                 if (mallUserToken == null || mallUserToken.expireTime?.isBefore(LocalDateTime.now()) != false) {
-                    NewBeeMallException.fail(ServiceResult.TOKEN_EXPIRE_ERROR.result)
+                    MallException.fail(ServiceResult.TOKEN_EXPIRE_ERROR.result)
                 }
                 mallUserMapper.selectById(mallUserToken?.userId)?.let {
                     if (it.lockedFlag == 1) {
-                        NewBeeMallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR.result)
+                        MallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR.result)
                     }
                     return it
-                } ?: NewBeeMallException.fail(ServiceResult.USER_NULL_ERROR.result)
+                } ?: MallException.fail(ServiceResult.USER_NULL_ERROR.result)
             } else {
-                NewBeeMallException.fail(ServiceResult.NOT_LOGIN_ERROR.result)
+                MallException.fail(ServiceResult.NOT_LOGIN_ERROR.result)
             }
         }
     }

@@ -10,11 +10,8 @@ import org.apache.ibatis.annotations.Param
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
 interface MallCarouselMapper : BaseMapper<MallCarousel> {
-    /**
-     * @param indexCarouselNumber 轮播图个数
-     */
     fun selectByNumber(@Param("number") indexCarouselNumber: Int): List<MallCarousel>
 }

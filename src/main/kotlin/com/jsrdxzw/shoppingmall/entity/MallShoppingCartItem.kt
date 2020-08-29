@@ -10,7 +10,7 @@ import java.io.Serializable
  * </p>
  *
  * @author jsrdxzw
- * @since 2020-08-28
+ * @since 2020-08-29
  */
 class MallShoppingCartItem : Serializable {
 
@@ -29,7 +29,7 @@ class MallShoppingCartItem : Serializable {
     /**
      * 关联商品id
      */
-    var goodsId: Long? = null
+    var merchandiseId: Long? = null
 
     /**
      * 数量(最大为5)
@@ -56,7 +56,7 @@ class MallShoppingCartItem : Serializable {
         return "MallShoppingCartItem{" +
         "id=" + id +
         ", userId=" + userId +
-        ", goodsId=" + goodsId +
+        ", merchandiseId=" + merchandiseId +
         ", goodsCount=" + goodsCount +
         ", isDeleted=" + isDeleted +
         ", createTime=" + createTime +

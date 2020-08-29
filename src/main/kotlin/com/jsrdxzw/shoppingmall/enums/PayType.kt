@@ -1,6 +1,6 @@
 package com.jsrdxzw.shoppingmall.enums
 
-import com.jsrdxzw.shoppingmall.exception.NewBeeMallException
+import com.jsrdxzw.shoppingmall.exception.MallException
 
 /**
  * @author  xuzhiwei
@@ -16,7 +16,7 @@ enum class PayType(val payType: Int, val desc: String) {
         fun getPayTypeByType(payType: Int?): PayType {
             return payType?.let { payTypeInner ->
                 values().find { it.payType == payTypeInner } ?: DEFAULT
-            } ?: throw NewBeeMallException("支付类型不能为空")
+            } ?: throw MallException("支付类型不能为空")
         }
     }
 }
