@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-@MapperScan("com.jsrdxzw.shoppingmall.dao")
+@MapperScan("com.jsrdxzw.shoppingmall.mapper")
 class ShoppingMallApplication
 
 fun main(args: Array<String>) {

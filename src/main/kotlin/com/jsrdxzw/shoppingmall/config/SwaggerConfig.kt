@@ -27,7 +27,8 @@ class SwaggerConfig {
     fun createDocket() = Docket(DocumentationType.SWAGGER_2).also {
         it.apiInfo(apiInfo())
                 .groupName("C端API文档")
-                .select().apis(RequestHandlerSelectors.basePackage("com.jsrdxzw.shoppingmall"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.jsrdxzw.shoppingmall"))
                 .paths(PathSelectors.any())
                 .build()
     }

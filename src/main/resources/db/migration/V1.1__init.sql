@@ -5,45 +5,45 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-# Dump of table tb_newbee_mall_admin_user
+# Dump of table mall_admin_user
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_admin_user`;
+DROP TABLE IF EXISTS `mall_admin_user`;
 
-CREATE TABLE `tb_newbee_mall_admin_user`
+CREATE TABLE `mall_admin_user`
 (
-    `admin_user_id`   int(11)     NOT NULL AUTO_INCREMENT COMMENT '管理员id',
+    `id`              int(11)     NOT NULL AUTO_INCREMENT COMMENT '管理员id',
     `login_user_name` varchar(50) NOT NULL COMMENT '管理员登陆名称',
     `login_password`  varchar(50) NOT NULL COMMENT '管理员登陆密码',
     `nick_name`       varchar(50) NOT NULL COMMENT '管理员显示昵称',
     `locked`          tinyint(4) DEFAULT '0' COMMENT '是否锁定 0未锁定 1已锁定无法登陆',
-    PRIMARY KEY (`admin_user_id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-LOCK TABLES `tb_newbee_mall_admin_user` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_admin_user`
+LOCK TABLES `mall_admin_user` WRITE;
+/*!40000 ALTER TABLE `mall_admin_user`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_admin_user` (`admin_user_id`, `login_user_name`, `login_password`, `nick_name`, `locked`)
+INSERT INTO `mall_admin_user` (`id`, `login_user_name`, `login_password`, `nick_name`, `locked`)
 VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '十三', 0),
        (2, 'newbee-admin1', 'e10adc3949ba59abbe56e057f20f883e', '新蜂01', 0),
        (3, 'newbee-admin2', 'e10adc3949ba59abbe56e057f20f883e', '新蜂02', 0);
 
-/*!40000 ALTER TABLE `tb_newbee_mall_admin_user`
+/*!40000 ALTER TABLE `mall_admin_user`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_carousel
+# Dump of table mall_carousel
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_carousel`;
+DROP TABLE IF EXISTS `mall_carousel`;
 
-CREATE TABLE `tb_newbee_mall_carousel`
+CREATE TABLE `mall_carousel`
 (
-    `carousel_id`   int(11)      NOT NULL AUTO_INCREMENT COMMENT '首页轮播图主键id',
+    `id`            int(11)      NOT NULL AUTO_INCREMENT COMMENT '首页轮播图主键id',
     `carousel_url`  varchar(100) NOT NULL DEFAULT '' COMMENT '轮播图',
     `redirect_url`  varchar(100) NOT NULL DEFAULT '''##''' COMMENT '点击后的跳转地址(默认不跳转)',
     `carousel_rank` int(11)      NOT NULL DEFAULT '0' COMMENT '排序值(字段越大越靠前)',
@@ -52,17 +52,17 @@ CREATE TABLE `tb_newbee_mall_carousel`
     `create_user`   int(11)      NOT NULL DEFAULT '0' COMMENT '创建者id',
     `update_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     `update_user`   int(11)      NOT NULL DEFAULT '0' COMMENT '修改者id',
-    PRIMARY KEY (`carousel_id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-LOCK TABLES `tb_newbee_mall_carousel` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_carousel`
+LOCK TABLES `mall_carousel` WRITE;
+/*!40000 ALTER TABLE `mall_carousel`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_carousel` (`carousel_id`, `carousel_url`, `redirect_url`, `carousel_rank`, `is_deleted`,
-                                       `create_time`, `create_user`, `update_time`, `update_user`)
+INSERT INTO `mall_carousel` (`id`, `carousel_url`, `redirect_url`, `carousel_rank`, `is_deleted`,
+                             `create_time`, `create_user`, `update_time`, `update_user`)
 VALUES (1, 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/banner2.jpg', '##', 200, 1, '2019-08-23 17:50:45', 0,
         '2019-11-10 00:23:01', 0),
        (2, 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/banner1.png',
@@ -78,19 +78,19 @@ VALUES (1, 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/banner2.jpg',
        (7, 'https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/banner2.png', '##', 99, 1, '2019-09-19 23:37:58', 0,
         '2019-10-22 00:15:01', 0);
 
-/*!40000 ALTER TABLE `tb_newbee_mall_carousel`
+/*!40000 ALTER TABLE `mall_carousel`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_goods_category
+# Dump of table mall_goods_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_goods_category`;
+DROP TABLE IF EXISTS `mall_merchandise_category`;
 
-CREATE TABLE `tb_newbee_mall_goods_category`
+CREATE TABLE `mall_merchandise_category`
 (
-    `category_id`    bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '分类id',
+    `id`             bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '分类id',
     `category_level` tinyint(4)  NOT NULL DEFAULT '0' COMMENT '分类级别(1-一级分类 2-二级分类 3-三级分类)',
     `parent_id`      bigint(20)  NOT NULL DEFAULT '0' COMMENT '父分类id',
     `category_name`  varchar(50) NOT NULL DEFAULT '' COMMENT '分类名称',
@@ -100,18 +100,18 @@ CREATE TABLE `tb_newbee_mall_goods_category`
     `create_user`    int(11)     NOT NULL DEFAULT '0' COMMENT '创建者id',
     `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     `update_user`    int(11)              DEFAULT '0' COMMENT '修改者id',
-    PRIMARY KEY (`category_id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-LOCK TABLES `tb_newbee_mall_goods_category` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_goods_category`
+LOCK TABLES `mall_merchandise_category` WRITE;
+/*!40000 ALTER TABLE `mall_merchandise_category`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_goods_category` (`category_id`, `category_level`, `parent_id`, `category_name`,
-                                             `category_rank`, `is_deleted`, `create_time`, `create_user`, `update_time`,
-                                             `update_user`)
+INSERT INTO `mall_merchandise_category` (`id`, `category_level`, `parent_id`, `category_name`,
+                                         `category_rank`, `is_deleted`, `create_time`, `create_user`, `update_time`,
+                                         `update_user`)
 VALUES (15, 1, 0, '家电 数码 手机', 100, 0, '2019-09-11 18:45:40', 0, '2019-11-20 23:18:13', 0),
        (16, 1, 0, '女装 男装 穿搭', 99, 0, '2019-09-11 18:46:07', 0, '2019-11-20 23:18:20', 0),
        (17, 2, 15, '家电', 10, 0, '2019-09-11 18:46:32', 0, '2019-09-11 18:46:32', 0),
@@ -215,47 +215,48 @@ VALUES (15, 1, 0, '家电 数码 手机', 100, 0, '2019-09-11 18:45:40', 0, '201
        (115, 2, 65, '玩具', 0, 0, '2019-11-28 20:24:58', 0, '2019-11-28 20:24:58', 0),
        (116, 3, 115, '机器人', 0, 0, '2019-11-28 20:25:16', 0, '2019-11-28 20:25:16', 0);
 
-/*!40000 ALTER TABLE `tb_newbee_mall_goods_category`
+/*!40000 ALTER TABLE `mall_merchandise_category`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_goods_info
+# Dump of table mall_goods_info
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_goods_info`;
+DROP TABLE IF EXISTS `mall_merchandise_info`;
 
-CREATE TABLE `tb_newbee_mall_goods_info`
+CREATE TABLE `mall_merchandise_info`
 (
-    `goods_id`             bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品表主键id',
-    `goods_name`           varchar(200)        NOT NULL DEFAULT '' COMMENT '商品名',
-    `goods_intro`          varchar(200)        NOT NULL DEFAULT '' COMMENT '商品简介',
-    `goods_category_id`    bigint(20)          NOT NULL DEFAULT '0' COMMENT '关联分类id',
-    `goods_cover_img`      varchar(200)        NOT NULL DEFAULT '/admin/dist/img/no-img.png' COMMENT '商品主图',
-    `goods_carousel`       varchar(500)        NOT NULL DEFAULT '/admin/dist/img/no-img.png' COMMENT '商品轮播图',
-    `goods_detail_content` text                NOT NULL COMMENT '商品详情',
-    `original_price`       int(11)             NOT NULL DEFAULT '1' COMMENT '商品价格',
-    `selling_price`        int(11)             NOT NULL DEFAULT '1' COMMENT '商品实际售价',
-    `stock_num`            int(11) unsigned    NOT NULL DEFAULT '0' COMMENT '商品库存数量',
-    `tag`                  varchar(20)         NOT NULL DEFAULT '' COMMENT '商品标签',
-    `goods_sell_status`    tinyint(4)          NOT NULL DEFAULT '0' COMMENT '商品上架状态 1-下架 0-上架',
-    `create_user`          int(11)             NOT NULL DEFAULT '0' COMMENT '添加者主键id',
-    `create_time`          datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品添加时间',
-    `update_user`          int(11)             NOT NULL DEFAULT '0' COMMENT '修改者主键id',
-    `update_time`          datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品修改时间',
-    PRIMARY KEY (`goods_id`) USING BTREE
+    `id`                         bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品表主键id',
+    `merchandise_name`           varchar(200)        NOT NULL DEFAULT '' COMMENT '商品名',
+    `merchandise_intro`          varchar(200)        NOT NULL DEFAULT '' COMMENT '商品简介',
+    `merchandise_category_id`    bigint(20)          NOT NULL DEFAULT '0' COMMENT '关联分类id',
+    `merchandise_cover_img`      varchar(200)        NOT NULL DEFAULT '/admin/dist/img/no-img.png' COMMENT '商品主图',
+    `merchandise_carousel`       varchar(500)        NOT NULL DEFAULT '/admin/dist/img/no-img.png' COMMENT '商品轮播图',
+    `merchandise_detail_content` text                NOT NULL COMMENT '商品详情',
+    `original_price`             int(11)             NOT NULL DEFAULT '1' COMMENT '商品价格',
+    `selling_price`              int(11)             NOT NULL DEFAULT '1' COMMENT '商品实际售价',
+    `stock_num`                  int(11) unsigned    NOT NULL DEFAULT '0' COMMENT '商品库存数量',
+    `tag`                        varchar(20)         NOT NULL DEFAULT '' COMMENT '商品标签',
+    `merchandise_sell_status`    tinyint(4)          NOT NULL DEFAULT '0' COMMENT '商品上架状态 1-下架 0-上架',
+    `create_user`                int(11)             NOT NULL DEFAULT '0' COMMENT '添加者主键id',
+    `create_time`                datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品添加时间',
+    `update_user`                int(11)             NOT NULL DEFAULT '0' COMMENT '修改者主键id',
+    `update_time`                datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品修改时间',
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-LOCK TABLES `tb_newbee_mall_goods_info` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_goods_info`
+LOCK TABLES `mall_merchandise_info` WRITE;
+/*!40000 ALTER TABLE `mall_merchandise_info`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_goods_info` (`goods_id`, `goods_name`, `goods_intro`, `goods_category_id`,
-                                         `goods_cover_img`, `goods_carousel`, `goods_detail_content`, `original_price`,
-                                         `selling_price`, `stock_num`, `tag`, `goods_sell_status`, `create_user`,
-                                         `create_time`, `update_user`, `update_time`)
+INSERT INTO `mall_merchandise_info` (`id`, `merchandise_name`, `merchandise_intro`, `merchandise_category_id`,
+                                     `merchandise_cover_img`, `merchandise_carousel`, `merchandise_detail_content`,
+                                     `original_price`,
+                                     `selling_price`, `stock_num`, `tag`, `merchandise_sell_status`, `create_user`,
+                                     `create_time`, `update_user`, `update_time`)
 VALUES (10003, '无印良品 MUJI 基础润肤化妆水', '滋润型 400ml', 0, '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg',
         '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', '商品介绍加载中...', 100, 100, 1000, '', 1, 0,
         '2019-09-18 13:18:47', 0, '2019-09-18 13:18:47'),
@@ -2011,19 +2012,19 @@ VALUES (10003, '无印良品 MUJI 基础润肤化妆水', '滋润型 400ml', 0, 
         '<img src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/p40-detail.jpg\" alt=\"\" />', 4399, 4299,
         2000, '超感知影像', 0, 0, '2020-03-27 10:07:37', 0, '2020-05-15 17:18:30');
 
-/*!40000 ALTER TABLE `tb_newbee_mall_goods_info`
+/*!40000 ALTER TABLE `mall_merchandise_info`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_index_config
+# Dump of table mall_index_config
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_index_config`;
+DROP TABLE IF EXISTS `mall_index_config`;
 
-CREATE TABLE `tb_newbee_mall_index_config`
+CREATE TABLE `mall_index_config`
 (
-    `config_id`    bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '首页配置项主键id',
+    `id`           bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '首页配置项主键id',
     `config_name`  varchar(50)  NOT NULL DEFAULT '' COMMENT '显示字符(配置搜索时不可为空，其他可为空)',
     `config_type`  tinyint(4)   NOT NULL DEFAULT '0' COMMENT '1-搜索框热搜 2-搜索下拉框热搜 3-(首页)热销商品 4-(首页)新品上线 5-(首页)为你推荐',
     `goods_id`     bigint(20)   NOT NULL DEFAULT '0' COMMENT '商品id 默认为0',
@@ -2034,17 +2035,17 @@ CREATE TABLE `tb_newbee_mall_index_config`
     `create_user`  int(11)      NOT NULL DEFAULT '0' COMMENT '创建者id',
     `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
     `update_user`  int(11)               DEFAULT '0' COMMENT '修改者id',
-    PRIMARY KEY (`config_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-LOCK TABLES `tb_newbee_mall_index_config` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_index_config`
+LOCK TABLES `mall_index_config` WRITE;
+/*!40000 ALTER TABLE `mall_index_config`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_index_config` (`config_id`, `config_name`, `config_type`, `goods_id`, `redirect_url`,
-                                           `config_rank`, `is_deleted`, `create_time`, `create_user`, `update_time`,
-                                           `update_user`)
+INSERT INTO `mall_index_config` (`id`, `config_name`, `config_type`, `goods_id`, `redirect_url`,
+                                 `config_rank`, `is_deleted`, `create_time`, `create_user`, `update_time`,
+                                 `update_user`)
 VALUES (1, '热销商品 iPhone XR', 3, 10284, '##', 10, 0, '2019-09-18 17:04:56', 0, '2019-09-18 17:04:56', 0),
        (2, '热销商品 华为 Mate20', 3, 10779, '##', 100, 0, '2019-09-18 17:05:27', 0, '2019-09-18 17:05:27', 0),
        (3, '热销商品 荣耀8X', 3, 10700, '##', 300, 0, '2019-09-18 17:08:02', 0, '2019-09-18 17:08:02', 0),
@@ -2075,19 +2076,19 @@ VALUES (1, '热销商品 iPhone XR', 3, 10284, '##', 10, 0, '2019-09-18 17:04:56
        (28, 'rqwer', 3, 23, '##', 12, 1, '2019-10-25 00:41:33', 0, '2019-10-25 00:44:16', 0),
        (29, '新品上线 华为 matex', 4, 10901, '##', 12, 0, '2019-12-14 15:53:34', 0, '2019-12-14 15:53:34', 0);
 
-/*!40000 ALTER TABLE `tb_newbee_mall_index_config`
+/*!40000 ALTER TABLE `mall_index_config`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_order
+# Dump of table mall_order
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_order`;
+DROP TABLE IF EXISTS `mall_order`;
 
-CREATE TABLE `tb_newbee_mall_order`
+CREATE TABLE `mall_order`
 (
-    `order_id`     bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '订单表主键id',
+    `id`           bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '订单表主键id',
     `order_no`     varchar(20)  NOT NULL DEFAULT '' COMMENT '订单号',
     `user_id`      bigint(20)   NOT NULL DEFAULT '0' COMMENT '用户主键id',
     `total_price`  int(11)      NOT NULL DEFAULT '1' COMMENT '订单总价',
@@ -2099,36 +2100,36 @@ CREATE TABLE `tb_newbee_mall_order`
     `is_deleted`   tinyint(4)   NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
-    PRIMARY KEY (`order_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-# Dump of table tb_newbee_mall_order_address
+# Dump of table mall_order_address
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_order_address`;
+DROP TABLE IF EXISTS `mall_order_address`;
 
-CREATE TABLE `tb_newbee_mall_order_address`
+CREATE TABLE `mall_order_address`
 (
-    `order_id`       bigint(20)  NOT NULL,
+    `id`             bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '订单地址主键id',
     `user_name`      varchar(30) NOT NULL DEFAULT '' COMMENT '收货人姓名',
     `user_phone`     varchar(11) NOT NULL DEFAULT '' COMMENT '收货人手机号',
     `province_name`  varchar(32) NOT NULL DEFAULT '' COMMENT '省',
     `city_name`      varchar(32) NOT NULL DEFAULT '' COMMENT '城',
     `region_name`    varchar(32) NOT NULL DEFAULT '' COMMENT '区',
     `detail_address` varchar(64) NOT NULL DEFAULT '' COMMENT '收件详细地址(街道/楼宇/单元)',
-    PRIMARY KEY (`order_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='订单收货地址关联表';
 
-# Dump of table tb_newbee_mall_order_item
+# Dump of table mall_order_item
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_order_item`;
+DROP TABLE IF EXISTS `mall_order_item`;
 
-CREATE TABLE `tb_newbee_mall_order_item`
+CREATE TABLE `mall_order_item`
 (
-    `order_item_id`   bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '订单关联购物项主键id',
+    `id`              bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '订单关联购物项主键id',
     `order_id`        bigint(20)   NOT NULL DEFAULT '0' COMMENT '订单主键id',
     `goods_id`        bigint(20)   NOT NULL DEFAULT '0' COMMENT '关联商品id',
     `goods_name`      varchar(200) NOT NULL DEFAULT '' COMMENT '下单时商品的名称(订单快照)',
@@ -2136,36 +2137,36 @@ CREATE TABLE `tb_newbee_mall_order_item`
     `selling_price`   int(11)      NOT NULL DEFAULT '1' COMMENT '下单时商品的价格(订单快照)',
     `goods_count`     int(11)      NOT NULL DEFAULT '1' COMMENT '数量(订单快照)',
     `create_time`     datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    PRIMARY KEY (`order_item_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-# Dump of table tb_newbee_mall_shopping_cart_item
+# Dump of table mall_shopping_cart_item
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_shopping_cart_item`;
+DROP TABLE IF EXISTS `mall_shopping_cart_item`;
 
-CREATE TABLE `tb_newbee_mall_shopping_cart_item`
+CREATE TABLE `mall_shopping_cart_item`
 (
-    `cart_item_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '购物项主键id',
-    `user_id`      bigint(20) NOT NULL COMMENT '用户主键id',
-    `goods_id`     bigint(20) NOT NULL DEFAULT '0' COMMENT '关联商品id',
-    `goods_count`  int(11)    NOT NULL DEFAULT '1' COMMENT '数量(最大为5)',
-    `is_deleted`   tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
-    `create_time`  datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`  datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
-    PRIMARY KEY (`cart_item_id`)
+    `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '购物项主键id',
+    `user_id`     bigint(20) NOT NULL COMMENT '用户主键id',
+    `goods_id`    bigint(20) NOT NULL DEFAULT '0' COMMENT '关联商品id',
+    `goods_count` int(11)    NOT NULL DEFAULT '1' COMMENT '数量(最大为5)',
+    `is_deleted`  tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
+    `create_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-# Dump of table tb_newbee_mall_user
+# Dump of table mall_user
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_user`;
+DROP TABLE IF EXISTS `mall_user`;
 
-CREATE TABLE `tb_newbee_mall_user`
+CREATE TABLE `mall_user`
 (
-    `user_id`        bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '用户主键id',
+    `id`             bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '用户主键id',
     `nick_name`      varchar(50)  NOT NULL DEFAULT '' COMMENT '用户昵称',
     `login_name`     varchar(11)  NOT NULL DEFAULT '' COMMENT '登陆名称(默认为手机号)',
     `password_md5`   varchar(32)  NOT NULL DEFAULT '' COMMENT 'MD5加密后的密码',
@@ -2173,33 +2174,33 @@ CREATE TABLE `tb_newbee_mall_user`
     `is_deleted`     tinyint(4)   NOT NULL DEFAULT '0' COMMENT '注销标识字段(0-正常 1-已注销)',
     `locked_flag`    tinyint(4)   NOT NULL DEFAULT '0' COMMENT '锁定标识字段(0-未锁定 1-已锁定)',
     `create_time`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
-    PRIMARY KEY (`user_id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-LOCK TABLES `tb_newbee_mall_user` WRITE;
-/*!40000 ALTER TABLE `tb_newbee_mall_user`
+LOCK TABLES `mall_user` WRITE;
+/*!40000 ALTER TABLE `mall_user`
     DISABLE KEYS */;
 
-INSERT INTO `tb_newbee_mall_user` (`user_id`, `nick_name`, `login_name`, `password_md5`, `introduce_sign`, `is_deleted`,
-                                   `locked_flag`, `create_time`)
+INSERT INTO `mall_user` (`id`, `nick_name`, `login_name`, `password_md5`, `introduce_sign`, `is_deleted`,
+                         `locked_flag`, `create_time`)
 VALUES (1, '十三', '13700002703', 'e10adc3949ba59abbe56e057f20f883e', '我不怕千万人阻挡，只怕自己投降', 0, 0, '2020-05-22 08:44:57'),
        (6, '陈尼克', '13711113333', 'e10adc3949ba59abbe56e057f20f883e', '测试用户陈尼克', 0, 0, '2020-05-22 08:44:57');
 
-/*!40000 ALTER TABLE `tb_newbee_mall_user`
+/*!40000 ALTER TABLE `mall_user`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table tb_newbee_mall_user_address
+# Dump of table mall_user_address
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_user_address`;
+DROP TABLE IF EXISTS `mall_user_address`;
 
-CREATE TABLE `tb_newbee_mall_user_address`
+CREATE TABLE `mall_user_address`
 (
-    `address_id`     bigint(20)  NOT NULL AUTO_INCREMENT,
+    `id`             bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '用户地址主键id',
     `user_id`        bigint(20)  NOT NULL DEFAULT '0' COMMENT '用户主键id',
     `user_name`      varchar(30) NOT NULL DEFAULT '' COMMENT '收货人姓名',
     `user_phone`     varchar(11) NOT NULL DEFAULT '' COMMENT '收货人手机号',
@@ -2211,22 +2212,24 @@ CREATE TABLE `tb_newbee_mall_user_address`
     `is_deleted`     tinyint(4)  NOT NULL DEFAULT '0' COMMENT '删除标识字段(0-未删除 1-已删除)',
     `create_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
     `update_time`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (`address_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='收货地址表';
 
-# Dump of table tb_newbee_mall_user_token
+# Dump of table mall_user_token
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tb_newbee_mall_user_token`;
+DROP TABLE IF EXISTS `mall_user_token`;
 
-CREATE TABLE `tb_newbee_mall_user_token`
+CREATE TABLE `mall_user_token`
 (
+    `id`          bigint(20)  NOT NULL AUTO_INCREMENT COMMENT 'token主键',
     `user_id`     bigint(20)  NOT NULL COMMENT '用户主键id',
     `token`       varchar(32) NOT NULL COMMENT 'token值(32位字符串)',
     `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     `expire_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'token过期时间',
-    PRIMARY KEY (`user_id`),
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `user_id` (`user_id`),
     UNIQUE KEY `uq_token` (`token`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
