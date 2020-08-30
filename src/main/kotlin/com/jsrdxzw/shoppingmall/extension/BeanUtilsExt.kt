@@ -7,8 +7,11 @@ import org.springframework.beans.BeanUtils
  * @date  2020/08/29
  */
 object BeanUtilsExt {
-    fun <T> copyList(list: List<*>, clazz: Class<T>): List<T> {
+    fun <T> copyList(list: List<*>?, clazz: Class<T>?): List<T> {
         val mutableList = mutableListOf<T>()
+        if (list == null || clazz == null) {
+            return mutableList
+        }
         for (element in list) {
             val target = clazz.getDeclaredConstructor().newInstance()
             element?.let {

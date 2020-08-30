@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsrdxzw.shoppingmall.mapper.MallMerchandiseCategoryMapper">
+    <select id="selectByParentIdsAndLevelAndLimit" resultType="com.jsrdxzw.shoppingmall.entity.MallMerchandiseCategory">
+        select * from mall_merchandise_category
+        where parent_id in
+        <foreach collection="parentIds" open="(" close=")" separator="," item="parentId">
+            #{parentId}
+        </foreach>
+        and category_level = #{level}
+        and is_deleted = 0
+        order by category_rank desc
+        <if test="limit != 0">
+            limit #{limit}
+        </if>
+    </select>
+</mapper>
