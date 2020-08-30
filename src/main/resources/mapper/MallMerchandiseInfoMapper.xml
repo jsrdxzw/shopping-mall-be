@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsrdxzw.shoppingmall.mapper.MallMerchandiseInfoMapper">
+    <sql id="BaseColumnList">
+        id,
+        merchandise_name,
+        merchandise_intro,
+        merchandise_cover_img,
+        selling_price
+    </sql>
+    <select id="searchMerchandise" resultType="com.jsrdxzw.shoppingmall.web.vo.MallMerchandiseVo">
+        select
+        <include refid="BaseColumnList"/>
+        from mall_merchandise_info
+        <where>
+            <if test="query.keyword != null and query.keyword != ''">
+                and (merchandise_name like CONCAT('%',#{query.keyword},'%') or merchandise_intro like
+                CONCAT('%',#{query.keyword},'%'))
+            </if>
+            <if test="query.merchandiseCategoryId != null and query.merchandiseCategoryId != ''">
+                and merchandise_category_id = #{query.merchandiseCategoryId}
+            </if>
+            <if test="status != null">
+                and merchandise_sell_status = #{status}
+            </if>
+        </where>
+        <if test="query.orderBy != null and query.orderBy != ''">
+            <choose>
+                <when test="query.orderBy == 'new'">
+                    <!-- 按照发布时间倒序排列 -->
+                    order by id desc
+                </when>
+                <when test="query.orderBy == 'price'">
+                    <!-- 按照售价从小到大排列 -->
+                    order by selling_price asc
+                </when>
+                <otherwise>
+                    <!-- 默认按照库存数量从大到小排列 -->
+                    order by stock_num desc
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+</mapper>

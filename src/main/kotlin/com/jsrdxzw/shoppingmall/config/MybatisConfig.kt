@@ -1,6 +1,7 @@
 package com.jsrdxzw.shoppingmall.config
 
-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -11,5 +12,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class MybatisConfig {
     @Bean
-    fun paginationInterceptor() = PaginationInnerInterceptor()
+    fun paginationInterceptor() = PaginationInterceptor().also {
+        it.setCountSqlParser(JsqlParserCountOptimize(true))
+    }
 }

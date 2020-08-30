@@ -44,4 +44,8 @@ object Constants {
 
     const val USER_INTRO = "随新所欲，蜂富多彩" //默认简介
 
+    const val MERCHANDISE_NAME_LENGTH = 28
+
+    const val MERCHANDISE_INTRO_LENGTH = 30
+
 }
