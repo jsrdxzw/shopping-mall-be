@@ -10,7 +10,7 @@
         and category_level = #{level}
         and is_deleted = 0
         order by category_rank desc
-        <if test="limit != 0">
+        <if test="limit > 0">
             limit #{limit}
         </if>
     </select>

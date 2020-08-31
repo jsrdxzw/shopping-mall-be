@@ -17,16 +17,16 @@ import org.springframework.stereotype.Service
 @Service
 class MallCategoryService {
     @Autowired
-    private lateinit var mallGoodsCategoryMapper: MallMerchandiseCategoryMapper
+    private lateinit var mallMerchandiseCategoryMapper: MallMerchandiseCategoryMapper
     fun getIndexCategories(): List<MallIndexCategoryVo> {
         val merchandiseCategoryVoList = mutableListOf<MallIndexCategoryVo>()
-        val merchandiseCategoryList: List<MallMerchandiseCategory> = mallGoodsCategoryMapper.selectByParentIdsAndLevelAndLimit(listOf(0L), NewBeeMallCategoryLevel.LEVEL_ONE.level, Constants.INDEX_CATEGORY_NUMBER)
+        val merchandiseCategoryList: List<MallMerchandiseCategory> = mallMerchandiseCategoryMapper.selectByParentIdsAndLevelAndLimit(listOf(0L), NewBeeMallCategoryLevel.LEVEL_ONE.level, Constants.INDEX_CATEGORY_NUMBER)
         if (merchandiseCategoryList.isNotEmpty()) {
             val firstCategoryIds = merchandiseCategoryList.mapNotNull { it.id }
-            val secondMerchandiseCategory = mallGoodsCategoryMapper.selectByParentIdsAndLevelAndLimit(firstCategoryIds, NewBeeMallCategoryLevel.LEVEL_TWO.level, 0)
+            val secondMerchandiseCategory = mallMerchandiseCategoryMapper.selectByParentIdsAndLevelAndLimit(firstCategoryIds, NewBeeMallCategoryLevel.LEVEL_TWO.level, 0)
             if (secondMerchandiseCategory.isNotEmpty()) {
                 val secondCategoryIds = secondMerchandiseCategory.mapNotNull { it.id }
-                val thirdCategory = mallGoodsCategoryMapper.selectByParentIdsAndLevelAndLimit(secondCategoryIds, NewBeeMallCategoryLevel.LEVEL_THREE.level, 0)
+                val thirdCategory = mallMerchandiseCategoryMapper.selectByParentIdsAndLevelAndLimit(secondCategoryIds, NewBeeMallCategoryLevel.LEVEL_THREE.level, 0)
                 val thirdCategoryMap = thirdCategory.groupBy { it.parentId }
 
                 val secondCategoryVoList = mutableListOf<MallIndexCategoryVo>()
@@ -43,7 +43,7 @@ class MallCategoryService {
                     for (mallMerchandiseCategory in merchandiseCategoryList) {
                         val mallIndexCategoryVo = MallIndexCategoryVo()
                         BeanUtils.copyProperties(mallMerchandiseCategory, mallIndexCategoryVo)
-                        mallIndexCategoryVo.childCategory = secondCategoryVoMap[mallMerchandiseCategory.parentId]
+                        mallIndexCategoryVo.childCategory = secondCategoryVoMap[mallMerchandiseCategory.id]
                         merchandiseCategoryVoList.add(mallIndexCategoryVo)
                     }
                 }
