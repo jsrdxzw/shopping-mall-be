@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiModelProperty
 @ApiModel("商品搜索参数")
 data class MerchandiseSearchBo(
         @ApiModelProperty("关键词")
-        var keyword: String?,
+        val keyword: String?,
         @ApiModelProperty("分类id")
-        var merchandiseCategoryId: Long?,
+        val merchandiseCategoryId: Long?,
         @ApiModelProperty("排序")
-        var orderBy: String?
+        val orderBy: String?
 ) : SearchPage()
