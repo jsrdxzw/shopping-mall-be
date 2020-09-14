@@ -33,4 +33,6 @@ out/
 ### VS Code ###
 .vscode/
 
-/compose/mysql
+### docker ###
+compose/
+!/compose/docker-compose.yml

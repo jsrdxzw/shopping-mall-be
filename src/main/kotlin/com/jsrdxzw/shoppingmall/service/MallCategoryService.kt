@@ -3,7 +3,7 @@ package com.jsrdxzw.shoppingmall.service
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.MallMerchandiseCategory
 import com.jsrdxzw.shoppingmall.enums.NewBeeMallCategoryLevel
-import com.jsrdxzw.shoppingmall.extension.BeanUtilsExt
+import com.jsrdxzw.shoppingmall.extension.copyList
 import com.jsrdxzw.shoppingmall.mapper.MallMerchandiseCategoryMapper
 import com.jsrdxzw.shoppingmall.web.vo.MallIndexCategoryVo
 import org.springframework.beans.BeanUtils
@@ -34,7 +34,7 @@ class MallCategoryService {
                     val secondCategoryVo = MallIndexCategoryVo()
                     BeanUtils.copyProperties(mallMerchandiseCategory, secondCategoryVo)
                     val list = thirdCategoryMap[mallMerchandiseCategory.id]
-                    secondCategoryVo.childCategory = BeanUtilsExt.copyList(list, MallIndexCategoryVo::class.java)
+                    secondCategoryVo.childCategory = list?.copyList(MallIndexCategoryVo::class.java)
                     secondCategoryVoList.add(secondCategoryVo)
                 }
 

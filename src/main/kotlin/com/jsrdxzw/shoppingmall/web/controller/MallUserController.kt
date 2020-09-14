@@ -1,11 +1,11 @@
 package com.jsrdxzw.shoppingmall.web.controller
 
+import com.jsrdxzw.shoppingmall.extension.getLogger
 import com.jsrdxzw.shoppingmall.service.MallUserService
 import com.jsrdxzw.shoppingmall.util.ResultData
 import com.jsrdxzw.shoppingmall.web.bo.MallUserLoginBo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,10 +29,11 @@ class MallUserController {
     @ApiOperation(value = "登录接口", notes = "返回token")
     @PostMapping("/login")
     fun login(@Valid @RequestBody mallUserLoginBo: MallUserLoginBo): ResultData<*> {
-        return ResultData.SUCCESS
+        val loginResult = mallUserService.login(mallUserLoginBo)
+        return ResultData.success(loginResult)
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(MallUserController::class.java)
+        private val logger = getLogger<MallUserController>()
     }
 }

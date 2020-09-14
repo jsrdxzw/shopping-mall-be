@@ -41,10 +41,4 @@ class MallExceptionHandler {
         return ResultData.error(data = exception.message)
     }
 
-    @ExceptionHandler(Exception::class)
-    fun exceptionHandle(exception: Exception): ResultData<String?> {
-        logger.error("未知异常:${exception}")
-        return ResultData.error(data = exception.message)
-    }
-
 }

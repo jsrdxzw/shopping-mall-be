@@ -1,12 +1,11 @@
 package com.jsrdxzw.shoppingmall.service
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper
 import com.baomidou.mybatisplus.core.metadata.IPage
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.MallMerchandiseInfo
 import com.jsrdxzw.shoppingmall.enums.ActiveType
+import com.jsrdxzw.shoppingmall.extension.lambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.mapper.MallMerchandiseInfoMapper
 import com.jsrdxzw.shoppingmall.web.bo.MerchandiseSearchBo
 import com.jsrdxzw.shoppingmall.web.vo.MallMerchandiseVo
@@ -40,12 +39,12 @@ class MallMerchandiseService {
     }
 
     fun searchMerchandiseById(merchandiseId: Int): MallMerchandiseVo {
-        val queryWrapper = KtQueryWrapper(MallMerchandiseInfo::class.java)
+        val queryWrapper = lambdaQueryWrapper<MallMerchandiseInfo>()
                 .eq(MallMerchandiseInfo::id, merchandiseId)
                 .eq(MallMerchandiseInfo::merchandiseSellStatus, ActiveType.ACTIVE.type)
-        val merchandiseInfo = merchandiseInfoMapper.selectOne(queryWrapper)
+        val merchandiseInfo: MallMerchandiseInfo? = merchandiseInfoMapper.selectOne(queryWrapper)
         val merchandiseVo = MallMerchandiseVo()
-        BeanUtils.copyProperties(merchandiseInfo, merchandiseVo)
+        merchandiseInfo?.let { BeanUtils.copyProperties(it, merchandiseVo) }
         return merchandiseVo
     }
 }

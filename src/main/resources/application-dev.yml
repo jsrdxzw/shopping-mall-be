@@ -4,7 +4,6 @@ file:
   upload-url: /Users/xuzhiwei/develop/upload
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     cache-enabled: true
 spring:
   datasource:

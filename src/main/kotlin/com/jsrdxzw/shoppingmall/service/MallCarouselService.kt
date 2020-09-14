@@ -1,6 +1,6 @@
 package com.jsrdxzw.shoppingmall.service
 
-import com.jsrdxzw.shoppingmall.extension.BeanUtilsExt
+import com.jsrdxzw.shoppingmall.extension.copyList
 import com.jsrdxzw.shoppingmall.mapper.MallCarouselMapper
 import com.jsrdxzw.shoppingmall.web.vo.MallIndexCarouselVo
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +19,7 @@ class MallCarouselService {
         val mallCarouselList = carouselMapper.selectByNumber(indexCarouselNumber)
         var mallCarouselVoList = emptyList<MallIndexCarouselVo>()
         if (!mallCarouselList.isNullOrEmpty()) {
-            mallCarouselVoList = BeanUtilsExt.copyList(mallCarouselList, MallIndexCarouselVo::class.java)
+            mallCarouselVoList = mallCarouselList.copyList(MallIndexCarouselVo::class.java)
         }
         return mallCarouselVoList
     }

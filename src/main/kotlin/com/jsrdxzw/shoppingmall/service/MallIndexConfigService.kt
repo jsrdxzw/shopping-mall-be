@@ -1,7 +1,7 @@
 package com.jsrdxzw.shoppingmall.service
 
 import com.jsrdxzw.shoppingmall.enums.IndexConfigType
-import com.jsrdxzw.shoppingmall.extension.BeanUtilsExt
+import com.jsrdxzw.shoppingmall.extension.copyList
 import com.jsrdxzw.shoppingmall.mapper.MallIndexConfigMapper
 import com.jsrdxzw.shoppingmall.mapper.MallMerchandiseInfoMapper
 import com.jsrdxzw.shoppingmall.web.vo.MallIndexMerchandiseConfigVo
@@ -27,7 +27,7 @@ class MallIndexConfigService {
             // 获取所有的商品信息
             val merchandiseIdList = indexConfigList.mapNotNull { it.merchandiseId }
             val merchandiseInfoList = merchandiseInfoMapper.selectBatchIds(merchandiseIdList)
-            result = BeanUtilsExt.copyList(list = merchandiseInfoList, clazz = MallIndexMerchandiseConfigVo::class.java)
+            result = merchandiseInfoList.copyList(MallIndexMerchandiseConfigVo::class.java)
             for (mallIndexMerchandiseConfigVo in result) {
                 val merchandiseName = mallIndexMerchandiseConfigVo.merchandiseName
                 val merchandiseIntro = mallIndexMerchandiseConfigVo.merchandiseIntro
