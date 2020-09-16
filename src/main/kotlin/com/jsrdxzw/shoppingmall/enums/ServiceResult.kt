@@ -69,5 +69,9 @@ enum class ServiceResult(val result: String) {
 
     REQUEST_FORBIDEN_ERROR("禁止该操作！"),
 
-    DB_ERROR("database error")
+    DB_ERROR("database error"),
+
+    LOGOUT_ERROR("logout error"),
+
+    UPDATE_USER_ERROR("用户更新失败")
 }

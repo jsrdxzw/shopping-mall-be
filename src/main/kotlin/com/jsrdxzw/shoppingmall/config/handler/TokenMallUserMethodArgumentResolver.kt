@@ -1,11 +1,11 @@
 package com.jsrdxzw.shoppingmall.config.handler
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.annotation.TokenToMallUser
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.MallUserToken
 import com.jsrdxzw.shoppingmall.enums.ServiceResult
 import com.jsrdxzw.shoppingmall.exception.MallException
+import com.jsrdxzw.shoppingmall.extension.lambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserMapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserTokenMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,22 +36,22 @@ class TokenMallUserMethodArgumentResolver : HandlerMethodArgumentResolver {
 
     override fun resolveArgument(parameter: MethodParameter, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         return parameter.getParameterAnnotation(TokenToMallUser::class.java)?.let {
-            val token = webRequest.getHeader("token")
+            val token = webRequest.getHeader("Authorization")
             if (!token.isNullOrEmpty() && token.length == Constants.TOKEN_LENGTH) {
                 val mallUserToken: MallUserToken? = mallUserTokenMapper.selectOne(
-                        LambdaQueryWrapper<MallUserToken>().eq(MallUserToken::token, token)
+                        lambdaQueryWrapper<MallUserToken>().eq(MallUserToken::token, token)
                 )
                 if (mallUserToken == null || mallUserToken.expireTime?.isBefore(LocalDateTime.now()) != false) {
-                    MallException.fail(ServiceResult.TOKEN_EXPIRE_ERROR.result)
+                    MallException.fail(ServiceResult.TOKEN_EXPIRE_ERROR)
                 }
                 mallUserMapper.selectById(mallUserToken?.userId)?.let {
                     if (it.lockedFlag == 1) {
-                        MallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR.result)
+                        MallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR)
                     }
                     return it
-                } ?: MallException.fail(ServiceResult.USER_NULL_ERROR.result)
+                } ?: MallException.fail(ServiceResult.USER_NULL_ERROR)
             } else {
-                MallException.fail(ServiceResult.NOT_LOGIN_ERROR.result)
+                MallException.fail(ServiceResult.NOT_LOGIN_ERROR)
             }
         }
     }
