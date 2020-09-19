@@ -12,6 +12,7 @@ import com.jsrdxzw.shoppingmall.extension.lambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserAddressMapper
 import com.jsrdxzw.shoppingmall.web.bo.UserAddressBo
 import com.jsrdxzw.shoppingmall.web.vo.MallUserAddressVo
+import com.jsrdxzw.shoppingmall.web.vo.MallUserLogin
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -32,12 +33,12 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
         return result.copyList(MallUserAddressVo::class.java)
     }
 
-    fun addUserAddress(userAddressBo: UserAddressBo, loginMallUser: MallUser) {
+    fun addUserAddress(userAddressBo: UserAddressBo, loginMallUser: MallUserLogin) {
         val mallUserAddress = MallUserAddress()
         BeanUtils.copyProperties(userAddressBo, mallUserAddress)
-        mallUserAddress.userId = loginMallUser.id
+        mallUserAddress.userId = loginMallUser.userId
         if (mallUserAddress.defaultFlag == YesOrNo.YES.code) {
-            val defaultAddress = getDefaultUserAddress(loginMallUser.id!!)
+            val defaultAddress = getDefaultUserAddress(loginMallUser.userId)
             if (defaultAddress != null) {
                 defaultAddress.defaultFlag = YesOrNo.NO.code
                 defaultAddress.updateTime = LocalDateTime.now()
@@ -55,8 +56,8 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
         return mallUserAddress?.beanCopy(MallUserAddressVo::class.java)
     }
 
-    fun getDefaultUserAddress(loginMallUser: MallUser) =
-            getDefaultUserAddress(loginMallUser.id!!)?.beanCopy(MallUserAddressVo::class.java)
+    fun getDefaultUserAddress(loginMallUser: MallUserLogin) =
+            getDefaultUserAddress(loginMallUser.userId)?.beanCopy(MallUserAddressVo::class.java)
 
     private fun getDefaultUserAddress(userId: Long): MallUserAddress? {
         val queryWrapper = lambdaQueryWrapper<MallUserAddress>()
@@ -65,9 +66,9 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
         return mallUserAddressMapper.selectOne(queryWrapper)
     }
 
-    fun deleteUserAddress(addressId: Long, loginMallUser: MallUser) {
+    fun deleteUserAddress(addressId: Long, loginMallUser: MallUserLogin) {
         val mallUserAddress: MallUserAddress = getById(addressId) ?: throw MallException(ServiceResult.DATA_NOT_EXIST)
-        if (mallUserAddress.userId != loginMallUser.id) throw MallException(ServiceResult.REQUEST_FORBIDEN_ERROR)
+        if (mallUserAddress.userId != loginMallUser.userId) throw MallException(ServiceResult.REQUEST_FORBIDEN_ERROR)
         mallUserAddress.isDeleted = YesOrNo.YES.code
         if (mallUserAddressMapper.updateById(mallUserAddress) != 1) {
             throw MallException(ServiceResult.OPERATE_ERROR)

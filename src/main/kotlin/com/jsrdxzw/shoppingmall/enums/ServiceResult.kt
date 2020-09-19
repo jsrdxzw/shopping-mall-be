@@ -7,11 +7,11 @@ package com.jsrdxzw.shoppingmall.enums
 enum class ServiceResult(val result: String) {
     ERROR("error"),
 
+    PARAM_ERROR("参数错误"),
+
     SUCCESS("success"),
 
     DATA_NOT_EXIST("未查询到记录！"),
-
-    PARAM_ERROR("未查询到记录！"),
 
     SAME_CATEGORY_EXIST("有同级同名的分类！"),
 
@@ -30,6 +30,8 @@ enum class ServiceResult(val result: String) {
     GOODS_NOT_EXIST("商品不存在！"),
 
     GOODS_PUT_DOWN("商品已下架！"),
+
+    SHOPPING_ITEM_EMPTY("购物车不能为空！"),
 
     SHOPPING_CART_ITEM_LIMIT_NUMBER_ERROR("超出单个商品的最大购买数量！"),
 

@@ -8,6 +8,7 @@ import com.jsrdxzw.shoppingmall.util.ResultData
 import com.jsrdxzw.shoppingmall.web.bo.MallUserLoginBo
 import com.jsrdxzw.shoppingmall.web.bo.MallUserRegisterBo
 import com.jsrdxzw.shoppingmall.web.bo.MallUserUpdateBo
+import com.jsrdxzw.shoppingmall.web.vo.MallUserLogin
 import com.jsrdxzw.shoppingmall.web.vo.MallUserVo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -51,14 +52,14 @@ class MallUserController {
 
     @ApiOperation(value = "修改接口")
     @PutMapping("/update")
-    fun update(@Valid @RequestBody mallUserUpdateBo: MallUserUpdateBo, @TokenToMallUser mallUser: MallUser): ResultData<*> {
-        mallUserService.updateUserInfo(mallUserUpdateBo, mallUser)
+    fun update(@Valid @RequestBody mallUserUpdateBo: MallUserUpdateBo, @TokenToMallUser mallUserLogin: MallUserLogin): ResultData<*> {
+        mallUserService.updateUserInfo(mallUserUpdateBo, mallUserLogin)
         return ResultData.SUCCESS
     }
 
     @ApiOperation("获取用户信息")
     @GetMapping("/info")
-    fun getUserDetail(@TokenToMallUser loginMallUser: MallUser): ResultData<MallUserVo> {
+    fun getUserDetail(@TokenToMallUser loginMallUser: MallUserLogin): ResultData<MallUserVo> {
         return ResultData.success(mallUserService.getUserInfo(loginMallUser))
     }
 

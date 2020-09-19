@@ -6,6 +6,7 @@ import com.jsrdxzw.shoppingmall.service.MallUserAddressService
 import com.jsrdxzw.shoppingmall.util.ResultData
 import com.jsrdxzw.shoppingmall.web.bo.UserAddressBo
 import com.jsrdxzw.shoppingmall.web.vo.MallUserAddressVo
+import com.jsrdxzw.shoppingmall.web.vo.MallUserLogin
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,26 +34,26 @@ class MallUserAddressController {
 
     @PostMapping
     @ApiOperation(value = "添加收获地址")
-    fun addAddress(@Valid @RequestBody userAddressBo: UserAddressBo, @TokenToMallUser loginMallUser: MallUser): ResultData<*> {
+    fun addAddress(@Valid @RequestBody userAddressBo: UserAddressBo, @TokenToMallUser loginMallUser: MallUserLogin): ResultData<*> {
         mallUserAddressService.addUserAddress(userAddressBo, loginMallUser)
         return ResultData.SUCCESS
     }
 
     @GetMapping("/{addressId}")
     @ApiOperation(value = "获取收获地址")
-    fun getMallUserAddress(@PathVariable("addressId") addressId: Long, @TokenToMallUser loginMallUser: MallUser): ResultData<MallUserAddressVo?> {
+    fun getMallUserAddress(@PathVariable("addressId") addressId: Long, @TokenToMallUser loginMallUser: MallUserLogin): ResultData<MallUserAddressVo?> {
         return ResultData.success(mallUserAddressService.getUserAddressByAddressId(addressId))
     }
 
     @GetMapping("/default")
     @ApiOperation(value = "获取默认收获地址")
-    fun getDefaultMallUserAddress(@TokenToMallUser loginMallUser: MallUser): ResultData<MallUserAddressVo?> {
+    fun getDefaultMallUserAddress(@TokenToMallUser loginMallUser: MallUserLogin): ResultData<MallUserAddressVo?> {
         return ResultData.success(mallUserAddressService.getDefaultUserAddress(loginMallUser))
     }
 
     @DeleteMapping("/{addressId}")
     @ApiOperation(value = "删除收获地址")
-    fun deleteMallUserAddress(@PathVariable("addressId") addressId: Long, @TokenToMallUser loginMallUser: MallUser): ResultData<*> {
+    fun deleteMallUserAddress(@PathVariable("addressId") addressId: Long, @TokenToMallUser loginMallUser: MallUserLogin): ResultData<*> {
         mallUserAddressService.deleteUserAddress(addressId, loginMallUser)
         return ResultData.SUCCESS
     }

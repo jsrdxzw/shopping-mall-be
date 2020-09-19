@@ -32,8 +32,8 @@ class MallIndexController {
     fun indexInfo(): ResultData<MallIndexInfoVo> {
         val carouselList = mallCarouselService.getCarouselsForIndex(Constants.INDEX_CAROUSEL_NUMBER)
         val hotMerchandiseList = mallIndexConfigService.getConfigMerchandisesForIndex(IndexConfigType.INDEX_MERCHANDISE_HOT, Constants.INDEX_MERCHANDISE_HOT_NUMBER)
-        val newMerchandiseList = mallIndexConfigService.getConfigMerchandisesForIndex(IndexConfigType.INDEX_MERCHANDISE_NEW, Constants.INDEX_MERCHANDISE_HOT_NUMBER)
-        val recommendMerchandiseList = mallIndexConfigService.getConfigMerchandisesForIndex(IndexConfigType.INDEX_MERCHANDISE_RECOMMEND, Constants.INDEX_MERCHANDISE_HOT_NUMBER)
+        val newMerchandiseList = mallIndexConfigService.getConfigMerchandisesForIndex(IndexConfigType.INDEX_MERCHANDISE_NEW, Constants.INDEX_MERCHANDISE_NEW_NUMBER)
+        val recommendMerchandiseList = mallIndexConfigService.getConfigMerchandisesForIndex(IndexConfigType.INDEX_MERCHANDISE_RECOMMEND, Constants.INDEX_MERCHANDISE_RECOMMEND_NUMBER)
         return ResultData.success(MallIndexInfoVo().also {
             it.carousels = carouselList
             it.hotMerchandise = hotMerchandiseList

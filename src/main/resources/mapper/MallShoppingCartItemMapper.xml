@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsrdxzw.shoppingmall.mapper.MallShoppingCartItemMapper">
+    <sql id="shoppingCartVoColumns">
+        ms.id,
+        ms.user_id,
+        ms.merchandise_id,
+        ms.goods_count,
+        mi.merchandise_name,
+        mi.merchandise_cover_img,
+        mi.selling_price
+    </sql>
+
+    <select id="getUserShoppingCartItems" resultType="com.jsrdxzw.shoppingmall.web.vo.MallShoppingCartItemVO">
+        select
+        <include refid="shoppingCartVoColumns"/>
+        from mall_shopping_cart_item ms join mall_merchandise_info mi
+        on ms.merchandise_id = mi.id
+        where user_id = #{userId}
+        and is_deleted = 0
+    </select>
+
+    <select id="selectShoppingCartItemSettle" resultType="com.jsrdxzw.shoppingmall.web.vo.MallShoppingCartItemVO">
+        select
+        <include refid="shoppingCartVoColumns"/>
+        from mall_shopping_cart_item ms join mall_merchandise_info mi
+        on ms.merchandise_id = mi.id
+        where user_id = #{userId}
+        and ms.id in
+        <foreach collection="cartItemIds" item="cartItemId" separator="," open="(" close=")">
+            #{cartItemId}
+        </foreach>
+        and is_deleted = 0
+    </select>
+</mapper>

@@ -8,6 +8,7 @@ import com.jsrdxzw.shoppingmall.exception.MallException
 import com.jsrdxzw.shoppingmall.extension.lambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserMapper
 import com.jsrdxzw.shoppingmall.mapper.MallUserTokenMapper
+import com.jsrdxzw.shoppingmall.web.vo.MallUserLogin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
@@ -48,7 +49,15 @@ class TokenMallUserMethodArgumentResolver : HandlerMethodArgumentResolver {
                     if (it.lockedFlag == 1) {
                         MallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR)
                     }
-                    return it
+                    return MallUserLogin(
+                            userId = it.id!!,
+                            loginName = it.loginName!!,
+                            nickName = it.nickName!!,
+                            introduceSign = it.introduceSign!!,
+                            lockedFlag = it.lockedFlag!!,
+                            isDeleted = it.isDeleted!!,
+                            createTime = it.createTime!!
+                    )
                 } ?: MallException.fail(ServiceResult.USER_NULL_ERROR)
             } else {
                 MallException.fail(ServiceResult.NOT_LOGIN_ERROR)

@@ -2,6 +2,8 @@ package com.jsrdxzw.shoppingmall.extension
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
+import com.jsrdxzw.shoppingmall.enums.ServiceResult
+import com.jsrdxzw.shoppingmall.exception.MallException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
@@ -48,3 +50,9 @@ inline fun <reified T : Any> lambdaQueryWrapper() = KtQueryWrapper(T::class.java
 inline fun <reified T : Any> lambdaUpdateWrapper() = KtUpdateWrapper(T::class.java)
 
 inline fun <reified T : Any> getLogger(): Logger = LoggerFactory.getLogger(T::class.java)
+
+inline fun validateUpdateSuccess(block: () -> Int) {
+    if (block() < 1) {
+        MallException.fail(ServiceResult.DB_ERROR)
+    }
+}

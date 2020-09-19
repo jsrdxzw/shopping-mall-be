@@ -15,6 +15,7 @@ import com.jsrdxzw.shoppingmall.mapper.MallUserTokenMapper
 import com.jsrdxzw.shoppingmall.web.bo.MallUserLoginBo
 import com.jsrdxzw.shoppingmall.web.bo.MallUserRegisterBo
 import com.jsrdxzw.shoppingmall.web.bo.MallUserUpdateBo
+import com.jsrdxzw.shoppingmall.web.vo.MallUserLogin
 import com.jsrdxzw.shoppingmall.web.vo.MallUserVo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -91,8 +92,9 @@ class MallUserService : ServiceImpl<MallUserMapper, MallUser>() {
         if (mallUserMapper.insert(mallUser) == 0) throw MallException(ServiceResult.DB_ERROR)
     }
 
-    fun updateUserInfo(mallUserUpdateBo: MallUserUpdateBo, mallUser: MallUser) {
-        val user: MallUser = mallUserMapper.selectById(mallUser.id) ?: throw MallException(ServiceResult.DATA_NOT_EXIST)
+    fun updateUserInfo(mallUserUpdateBo: MallUserUpdateBo, mallUser: MallUserLogin) {
+        val user: MallUser = mallUserMapper.selectById(mallUser.userId)
+                ?: throw MallException(ServiceResult.DATA_NOT_EXIST)
         user.nickName = mallUserUpdateBo.nickName
         user.passwordMd5 = mallUserUpdateBo.passwordMd5
         mallUserUpdateBo.introduceSign?.let { user.introduceSign = it }
@@ -101,7 +103,7 @@ class MallUserService : ServiceImpl<MallUserMapper, MallUser>() {
         }
     }
 
-    fun getUserInfo(loginMallUser: MallUser): MallUserVo {
+    fun getUserInfo(loginMallUser: MallUserLogin): MallUserVo {
         return MallUserVo(loginMallUser.loginName, loginMallUser.loginName, loginMallUser.introduceSign)
     }
 
