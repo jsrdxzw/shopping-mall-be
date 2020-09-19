@@ -1,11 +1,11 @@
 package com.jsrdxzw.shoppingmall.extension
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
+import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.util.DigestUtils
-import java.security.MessageDigest
 
 /**
  * @author  xuzhiwei
@@ -35,8 +35,16 @@ fun <T, K : Any> Collection<T>.copyList(clazz: Class<K>): List<K> {
     return result
 }
 
+fun <T : Any, K : Any> T.beanCopy(clazz: Class<K>): K {
+    val target = clazz.getDeclaredConstructor().newInstance()
+    BeanUtils.copyProperties(this, target)
+    return target
+}
+
 fun String.md5() = DigestUtils.md5DigestAsHex(this.toByteArray())
 
 inline fun <reified T : Any> lambdaQueryWrapper() = KtQueryWrapper(T::class.java)
+
+inline fun <reified T : Any> lambdaUpdateWrapper() = KtUpdateWrapper(T::class.java)
 
 inline fun <reified T : Any> getLogger(): Logger = LoggerFactory.getLogger(T::class.java)
