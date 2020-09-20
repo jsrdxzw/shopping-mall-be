@@ -57,6 +57,8 @@ enum class ServiceResult(val result: String) {
 
     ORDER_PRICE_ERROR("订单价格异常！"),
 
+    ORDER_SELLING_STATUS_ERROR("订单包含已下架商品！"),
+
     ORDER_ITEM_NULL_ERROR("订单项异常！"),
 
     ORDER_GENERATE_ERROR("生成订单异常！"),
@@ -66,6 +68,10 @@ enum class ServiceResult(val result: String) {
     SHOPPING_ITEM_COUNT_ERROR("库存不足！"),
 
     ORDER_STATUS_ERROR("订单状态异常！"),
+
+    ORDER_STATUS_EMPTY_ERROR("订单状态不能为空！"),
+
+    PAY_TYPE_EMPTY_ERROR("支付类型不能为空！"),
 
     OPERATE_ERROR("操作失败！"),
 

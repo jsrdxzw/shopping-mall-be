@@ -92,7 +92,7 @@ class MallShoppingCartService : ServiceImpl<MallShoppingCartItemMapper, MallShop
 
     private fun validateUpdateShoppingCart(mallShoppingCartItem: MallShoppingCartItem?, cartItemUpdateBo: CartItemUpdateBo, mallUserLogin: MallUserLogin) {
         if (mallShoppingCartItem == null) {
-            throw MallException(ServiceResult.DATA_NOT_EXIST)
+            MallException.fail(ServiceResult.DATA_NOT_EXIST)
         }
         if (mallShoppingCartItem.userId != mallUserLogin.userId) {
             MallException.fail(ServiceResult.REQUEST_FORBIDEN_ERROR)
@@ -114,8 +114,8 @@ class MallShoppingCartService : ServiceImpl<MallShoppingCartItemMapper, MallShop
         }
     }
 
-    fun getCartItemSettle(cartItemIds: List<Long>, mallUserLogin: MallUserLogin): List<MallShoppingCartItemVO> {
-        if (cartItemIds.isNullOrEmpty()) {
+    fun getCartItemSettle(cartItemIds: LongArray, mallUserLogin: MallUserLogin): List<MallShoppingCartItemVO> {
+        if (cartItemIds.isEmpty()) {
             MallException.fail(ServiceResult.PARAM_ERROR)
         }
         val mallShoppingCartItems = mallShoppingCartItemMapper.selectShoppingCartItemSettle(cartItemIds, mallUserLogin.userId)

@@ -41,4 +41,14 @@
             </choose>
         </if>
     </select>
+
+    <update id="updateMerchandiseStock">
+        <foreach collection="stockDTOs" item="stockDTO">
+            update mall_merchandise_info
+            set stock_num = stock_num - #{stockDTO.merchandiseCount}
+            where id = #{stockDTO.merchandiseId}
+            and stock_num >= #{stockDTO.merchandiseCount}
+            and merchandise_sell_status = 0
+        </foreach>
+    </update>
 </mapper>

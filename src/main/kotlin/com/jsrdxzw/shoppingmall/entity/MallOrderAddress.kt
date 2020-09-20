@@ -3,6 +3,7 @@ package com.jsrdxzw.shoppingmall.entity
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import java.io.Serializable
+
 /**
  * <p>
  * 订单收货地址关联表
@@ -50,16 +51,17 @@ class MallOrderAddress : Serializable {
      */
     var detailAddress: String? = null
 
+    var orderId: Long? = null
 
     override fun toString(): String {
         return "MallOrderAddress{" +
-        "id=" + id +
-        ", userName=" + userName +
-        ", userPhone=" + userPhone +
-        ", provinceName=" + provinceName +
-        ", cityName=" + cityName +
-        ", regionName=" + regionName +
-        ", detailAddress=" + detailAddress +
-        "}"
+                "id=" + id +
+                ", userName=" + userName +
+                ", userPhone=" + userPhone +
+                ", provinceName=" + provinceName +
+                ", cityName=" + cityName +
+                ", regionName=" + regionName +
+                ", detailAddress=" + detailAddress +
+                "}"
     }
 }

@@ -16,7 +16,7 @@ enum class PayType(val payType: Int, val desc: String) {
         fun getPayTypeByType(payType: Int?): PayType {
             return payType?.let { payTypeInner ->
                 values().find { it.payType == payTypeInner } ?: DEFAULT
-            } ?: throw MallException("支付类型不能为空")
+            } ?: MallException.fail(ServiceResult.PAY_TYPE_EMPTY_ERROR)
         }
     }
 }

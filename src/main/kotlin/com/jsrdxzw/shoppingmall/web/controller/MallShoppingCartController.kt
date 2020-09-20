@@ -14,6 +14,8 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
+import javax.validation.constraints.NotEmpty
 
 /**
  * @author  xuzhiwei
@@ -55,7 +57,7 @@ class MallShoppingCartController {
 
     @GetMapping("/settle")
     @ApiOperation(value = "根据购物项id数组查询购物项明细", notes = "确认订单页面使用")
-    fun cartItemSettle(cartItemIds: LongArray, @TokenToMallUser mallUserLogin: MallUserLogin): ResultData<List<MallShoppingCartItemVO>> {
-        return ResultData.success(mallShoppingCartService.getCartItemSettle(cartItemIds.toList(), mallUserLogin))
+    fun cartItemSettle(@Valid @NotEmpty(message = "购物车商品id数组不能为空") cartItemIds: LongArray, @TokenToMallUser mallUserLogin: MallUserLogin): ResultData<List<MallShoppingCartItemVO>> {
+        return ResultData.success(mallShoppingCartService.getCartItemSettle(cartItemIds, mallUserLogin))
     }
 }

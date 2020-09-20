@@ -25,6 +25,18 @@ fun randomNumber(length: Int): Int {
     return (random * num).toInt()
 }
 
+/**
+ * 生成订单流水号
+ *
+ * @return
+ */
+fun generateOrderNumber(): String {
+    val buffer = StringBuffer(System.currentTimeMillis().toString())
+    val num: Int = randomNumber(4)
+    buffer.append(num)
+    return buffer.toString()
+}
+
 fun <T, K : Any> Collection<T>.copyList(clazz: Class<K>): List<K> {
     val result = mutableListOf<K>()
     for (element in this) {
@@ -51,8 +63,17 @@ inline fun <reified T : Any> lambdaUpdateWrapper() = KtUpdateWrapper(T::class.ja
 
 inline fun <reified T : Any> getLogger(): Logger = LoggerFactory.getLogger(T::class.java)
 
-inline fun validateUpdateSuccess(block: () -> Int) {
-    if (block() < 1) {
+inline fun validateUpdateSuccess(block: () -> Any) {
+    val res = block()
+    if (res is Int && res < 1) {
         MallException.fail(ServiceResult.DB_ERROR)
+    } else if (res is Boolean && !res) {
+        MallException.fail(ServiceResult.DB_ERROR)
+    }
+}
+
+inline fun updateSuccessCallback(block: () -> Int, callback: () -> Unit) {
+    if (block() > 0) {
+        callback()
     }
 }

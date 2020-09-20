@@ -1,7 +1,6 @@
 package com.jsrdxzw.shoppingmall.service
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import com.jsrdxzw.shoppingmall.entity.MallUser
 import com.jsrdxzw.shoppingmall.entity.MallUserAddress
 import com.jsrdxzw.shoppingmall.enums.ServiceResult
 import com.jsrdxzw.shoppingmall.enums.YesOrNo
@@ -23,9 +22,9 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
     @Autowired
     private lateinit var mallUserAddressMapper: MallUserAddressMapper
 
-    fun getUserAddress(loginMallUser: MallUser): List<MallUserAddressVo> {
+    fun getUserAddress(loginMallUser: MallUserLogin): List<MallUserAddressVo> {
         val queryWrapper = lambdaQueryWrapper<MallUserAddress>()
-                .eq(MallUserAddress::userId, loginMallUser.id)
+                .eq(MallUserAddress::userId, loginMallUser.userId)
                 .eq(MallUserAddress::isDeleted, YesOrNo.NO.code)
                 .orderByDesc(MallUserAddress::id)
                 .last("limit $ADDRESS_LIMIT_COUNT")
@@ -44,11 +43,11 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
                 defaultAddress.updateTime = LocalDateTime.now()
                 val res = mallUserAddressMapper.updateById(defaultAddress)
                 if (res < 1) {
-                    throw MallException(ServiceResult.DB_ERROR)
+                    MallException.fail(ServiceResult.DB_ERROR)
                 }
             }
         }
-        if (mallUserAddressMapper.insert(mallUserAddress) < 1) throw MallException(ServiceResult.DB_ERROR)
+        if (mallUserAddressMapper.insert(mallUserAddress) < 1) MallException.fail(ServiceResult.DB_ERROR)
     }
 
     fun getUserAddressByAddressId(addressId: Long): MallUserAddressVo? {
@@ -67,11 +66,11 @@ class MallUserAddressService : ServiceImpl<MallUserAddressMapper, MallUserAddres
     }
 
     fun deleteUserAddress(addressId: Long, loginMallUser: MallUserLogin) {
-        val mallUserAddress: MallUserAddress = getById(addressId) ?: throw MallException(ServiceResult.DATA_NOT_EXIST)
-        if (mallUserAddress.userId != loginMallUser.userId) throw MallException(ServiceResult.REQUEST_FORBIDEN_ERROR)
+        val mallUserAddress: MallUserAddress = getById(addressId) ?: MallException.fail(ServiceResult.DATA_NOT_EXIST)
+        if (mallUserAddress.userId != loginMallUser.userId) MallException.fail(ServiceResult.REQUEST_FORBIDEN_ERROR)
         mallUserAddress.isDeleted = YesOrNo.YES.code
         if (mallUserAddressMapper.updateById(mallUserAddress) != 1) {
-            throw MallException(ServiceResult.OPERATE_ERROR)
+            MallException.fail(ServiceResult.OPERATE_ERROR)
         }
     }
 

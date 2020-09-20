@@ -28,7 +28,7 @@ class MallUserAddressController {
 
     @GetMapping
     @ApiOperation(value = "我的收货地址列表")
-    fun addressList(@TokenToMallUser loginMallUser: MallUser): ResultData<List<MallUserAddressVo>> {
+    fun addressList(@TokenToMallUser loginMallUser: MallUserLogin): ResultData<List<MallUserAddressVo>> {
         return ResultData.success(mallUserAddressService.getUserAddress(loginMallUser))
     }
 

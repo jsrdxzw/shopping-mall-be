@@ -27,7 +27,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/merchandise")
 @Validated
-class MerchandiseController {
+class MallMerchandiseController {
 
     @Autowired
     private lateinit var mallMerchandiseService: MallMerchandiseService

@@ -2,11 +2,13 @@ package com.jsrdxzw.shoppingmall.service
 
 import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.MallMerchandiseInfo
 import com.jsrdxzw.shoppingmall.enums.ActiveType
 import com.jsrdxzw.shoppingmall.extension.lambdaQueryWrapper
 import com.jsrdxzw.shoppingmall.mapper.MallMerchandiseInfoMapper
+import com.jsrdxzw.shoppingmall.service.dto.StockDTO
 import com.jsrdxzw.shoppingmall.web.bo.MerchandiseSearchBo
 import com.jsrdxzw.shoppingmall.web.vo.MallMerchandiseVo
 import org.springframework.beans.BeanUtils
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service
  * @date  2020/08/30
  */
 @Service
-class MallMerchandiseService {
+class MallMerchandiseService : ServiceImpl<MallMerchandiseInfoMapper, MallMerchandiseInfo>() {
     @Autowired
     private lateinit var merchandiseInfoMapper: MallMerchandiseInfoMapper
 
@@ -46,5 +48,9 @@ class MallMerchandiseService {
         val merchandiseVo = MallMerchandiseVo()
         merchandiseInfo?.let { BeanUtils.copyProperties(it, merchandiseVo) }
         return merchandiseVo
+    }
+
+    fun updateMerchandiseStock(stockDTOs: List<StockDTO>): Int {
+        return merchandiseInfoMapper.updateMerchandiseStock(stockDTOs)
     }
 }

@@ -14,11 +14,11 @@ class MallException : RuntimeException {
     constructor(serviceError: ServiceResult) : super(serviceError.result)
 
     companion object {
-        fun fail(message: String) {
+        fun fail(message: String): Nothing {
             throw MallException(message)
         }
 
-        fun fail(serviceError: ServiceResult) {
+        fun fail(serviceError: ServiceResult): Nothing {
             throw MallException(serviceError)
         }
     }

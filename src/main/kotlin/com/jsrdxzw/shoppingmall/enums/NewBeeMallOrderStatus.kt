@@ -21,7 +21,7 @@ enum class NewBeeMallOrderStatus(val orderStatus: Int, val desc: String) {
         fun getNewBeeMallOrderStatusByStatus(orderStatus: Int?): NewBeeMallOrderStatus {
             return orderStatus?.let { status ->
                 values().find { it.orderStatus == status } ?: DEFAULT
-            } ?: throw MallException("订单状态不能为空")
+            } ?: MallException.fail(ServiceResult.ORDER_STATUS_EMPTY_ERROR)
         }
     }
 }

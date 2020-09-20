@@ -24,5 +24,5 @@ interface MallShoppingCartItemMapper : BaseMapper<MallShoppingCartItem> {
     /**
      * 根据购物车id查询购物车商品信息
      */
-    fun selectShoppingCartItemSettle(@Param("cartItemIds") cartItemIds: List<Long>, @Param("userId") userId: Long): List<MallShoppingCartItemVO>
+    fun selectShoppingCartItemSettle(@Param("cartItemIds") cartItemIds: LongArray, @Param("userId") userId: Long): List<MallShoppingCartItemVO>
 }

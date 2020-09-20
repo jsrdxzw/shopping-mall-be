@@ -39,10 +39,10 @@ class MallUserService : ServiceImpl<MallUserMapper, MallUser>() {
                 .eq(MallUser::passwordMd5, mallUserLoginBo.passwordMd5)
                 .eq(MallUser::isDeleted, YesOrNo.NO.code)
         val mallUser: MallUser = mallUserMapper.selectOne(queryWrapper)
-                ?: throw MallException(ServiceResult.LOGIN_ERROR)
+                ?: MallException.fail(ServiceResult.LOGIN_ERROR)
 
         if (mallUser.lockedFlag == YesOrNo.YES.code) {
-            throw MallException(ServiceResult.LOGIN_USER_LOCKED_ERROR)
+            MallException.fail(ServiceResult.LOGIN_USER_LOCKED_ERROR)
         }
 
         val token = getNewToken("${System.currentTimeMillis()}", mallUser.id)
@@ -69,19 +69,19 @@ class MallUserService : ServiceImpl<MallUserMapper, MallUser>() {
                 return token
             }
         }
-        throw MallException(ServiceResult.LOGIN_ERROR)
+        MallException.fail(ServiceResult.LOGIN_ERROR)
     }
 
     fun logout(id: Long?) {
-        if (id == null) throw MallException(ServiceResult.LOGOUT_ERROR)
+        if (id == null) MallException.fail(ServiceResult.LOGOUT_ERROR)
         val result = mallUserTokenMapper.delete(lambdaQueryWrapper<MallUserToken>().eq(MallUserToken::userId, id))
-        if (result == 0) throw MallException(ServiceResult.LOGOUT_ERROR)
+        if (result == 0) MallException.fail(ServiceResult.LOGOUT_ERROR)
     }
 
     fun register(mallUserRegisterBo: MallUserRegisterBo) {
         var mallUser: MallUser? = mallUserMapper.selectOne(lambdaQueryWrapper<MallUser>().eq(MallUser::loginName, mallUserRegisterBo.loginName))
         if (mallUser != null) {
-            throw MallException(ServiceResult.SAME_LOGIN_NAME_EXIST)
+            MallException.fail(ServiceResult.SAME_LOGIN_NAME_EXIST)
         }
         mallUser = MallUser().apply {
             loginName = mallUserRegisterBo.loginName
@@ -89,17 +89,17 @@ class MallUserService : ServiceImpl<MallUserMapper, MallUser>() {
             introduceSign = Constants.USER_INTRO
             passwordMd5 = mallUserRegisterBo.password.md5()
         }
-        if (mallUserMapper.insert(mallUser) == 0) throw MallException(ServiceResult.DB_ERROR)
+        if (mallUserMapper.insert(mallUser) == 0) MallException.fail(ServiceResult.DB_ERROR)
     }
 
     fun updateUserInfo(mallUserUpdateBo: MallUserUpdateBo, mallUser: MallUserLogin) {
         val user: MallUser = mallUserMapper.selectById(mallUser.userId)
-                ?: throw MallException(ServiceResult.DATA_NOT_EXIST)
+                ?: MallException.fail(ServiceResult.DATA_NOT_EXIST)
         user.nickName = mallUserUpdateBo.nickName
         user.passwordMd5 = mallUserUpdateBo.passwordMd5
         mallUserUpdateBo.introduceSign?.let { user.introduceSign = it }
         if (mallUserMapper.updateById(user) == 0) {
-            throw MallException(ServiceResult.UPDATE_USER_ERROR)
+            MallException.fail(ServiceResult.UPDATE_USER_ERROR)
         }
     }
 
