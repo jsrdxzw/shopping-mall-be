@@ -73,6 +73,8 @@ enum class ServiceResult(val result: String) {
 
     PAY_TYPE_EMPTY_ERROR("支付类型不能为空！"),
 
+    PAY_SUCCESS_ERROR("非待支付状态下的订单无法支付！"),
+
     OPERATE_ERROR("操作失败！"),
 
     REQUEST_FORBIDEN_ERROR("禁止该操作！"),

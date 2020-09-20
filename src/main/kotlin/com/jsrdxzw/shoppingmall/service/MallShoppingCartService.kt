@@ -52,7 +52,7 @@ class MallShoppingCartService : ServiceImpl<MallShoppingCartItemMapper, MallShop
         validateUpdateShoppingCart(mallShoppingCartItem, cartItemUpdateBo, mallUserLogin)
 
         mallShoppingCartItem.apply {
-            goodsCount = cartItemUpdateBo.merchandiseCount
+            merchandiseCount = cartItemUpdateBo.merchandiseCount
             updateTime = LocalDateTime.now()
         }
 

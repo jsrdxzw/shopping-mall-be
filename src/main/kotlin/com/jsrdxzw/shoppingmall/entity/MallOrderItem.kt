@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import java.time.LocalDateTime
 import java.io.Serializable
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author jsrdxzw
@@ -34,12 +35,12 @@ class MallOrderItem : Serializable {
     /**
      * 下单时商品的名称(订单快照)
      */
-    var goodsName: String? = null
+    var merchandiseName: String? = null
 
     /**
      * 下单时商品的主图(订单快照)
      */
-    var goodsCoverImg: String? = null
+    var merchandiseCoverImg: String? = null
 
     /**
      * 下单时商品的价格(订单快照)
@@ -49,7 +50,7 @@ class MallOrderItem : Serializable {
     /**
      * 数量(订单快照)
      */
-    var goodsCount: Int? = null
+    var merchandiseCount: Int? = null
 
     /**
      * 创建时间
@@ -59,14 +60,14 @@ class MallOrderItem : Serializable {
 
     override fun toString(): String {
         return "MallOrderItem{" +
-        "id=" + id +
-        ", orderId=" + orderId +
-        ", merchandiseId=" + merchandiseId +
-        ", goodsName=" + goodsName +
-        ", goodsCoverImg=" + goodsCoverImg +
-        ", sellingPrice=" + sellingPrice +
-        ", goodsCount=" + goodsCount +
-        ", createTime=" + createTime +
-        "}"
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", merchandiseId=" + merchandiseId +
+                ", goodsName=" + merchandiseName +
+                ", goodsCoverImg=" + merchandiseCoverImg +
+                ", sellingPrice=" + sellingPrice +
+                ", goodsCount=" + merchandiseCount +
+                ", createTime=" + createTime +
+                "}"
     }
 }

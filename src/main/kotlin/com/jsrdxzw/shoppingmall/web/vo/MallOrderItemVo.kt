@@ -2,10 +2,11 @@ package com.jsrdxzw.shoppingmall.web.vo
 
 import io.swagger.annotations.ApiModelProperty
 
-data class MallShoppingCartItemVO(
-        @ApiModelProperty("购物项id")
-        var id: Long? = null,
-
+/**
+ * @author  xuzhiwei
+ * @date  2020/09/20
+ */
+data class MallOrderItemVo(
         @ApiModelProperty("商品id")
         var merchandiseId: Long? = null,
 

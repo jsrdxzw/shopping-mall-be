@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import java.time.LocalDateTime
 import java.io.Serializable
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author jsrdxzw
@@ -34,7 +35,7 @@ class MallShoppingCartItem : Serializable {
     /**
      * 数量(最大为5)
      */
-    var goodsCount: Int? = null
+    var merchandiseCount: Int? = null
 
     /**
      * 删除标识字段(0-未删除 1-已删除)
@@ -54,13 +55,13 @@ class MallShoppingCartItem : Serializable {
 
     override fun toString(): String {
         return "MallShoppingCartItem{" +
-        "id=" + id +
-        ", userId=" + userId +
-        ", merchandiseId=" + merchandiseId +
-        ", goodsCount=" + goodsCount +
-        ", isDeleted=" + isDeleted +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}"
+                "id=" + id +
+                ", userId=" + userId +
+                ", merchandiseId=" + merchandiseId +
+                ", merchandiseCount=" + merchandiseCount +
+                ", isDeleted=" + isDeleted +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}"
     }
 }

@@ -1,16 +1,16 @@
 package com.jsrdxzw.shoppingmall.service
 
+import com.baomidou.mybatisplus.core.metadata.IPage
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import com.jsrdxzw.shoppingmall.common.Constants
 import com.jsrdxzw.shoppingmall.entity.*
-import com.jsrdxzw.shoppingmall.enums.NewBeeMallOrderStatus
-import com.jsrdxzw.shoppingmall.enums.PayType
-import com.jsrdxzw.shoppingmall.enums.ServiceResult
-import com.jsrdxzw.shoppingmall.enums.YesOrNo
+import com.jsrdxzw.shoppingmall.enums.*
 import com.jsrdxzw.shoppingmall.exception.MallException
 import com.jsrdxzw.shoppingmall.extension.*
 import com.jsrdxzw.shoppingmall.mapper.MallOrderMapper
 import com.jsrdxzw.shoppingmall.service.dto.StockDTO
+import com.jsrdxzw.shoppingmall.web.bo.PageRequest
 import com.jsrdxzw.shoppingmall.web.bo.SaveOrderBo
 import com.jsrdxzw.shoppingmall.web.vo.*
 import org.springframework.beans.BeanUtils
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.Exception
+import java.time.LocalDateTime
 
 /**
  * @author  xuzhiwei
@@ -74,7 +75,7 @@ class MallOrderService : ServiceImpl<MallOrderMapper, MallOrder>() {
                 .set(MallShoppingCartItem::isDeleted, YesOrNo.YES.code)
         shoppingCartService.update(updateWrapper)
 
-        val stockDTOs: List<StockDTO> = itemsForSave.map { StockDTO(it.merchandiseId!!, it.goodsCount!!) }
+        val stockDTOs: List<StockDTO> = itemsForSave.map { StockDTO(it.merchandiseId!!, it.merchandiseCount!!) }
         validateUpdateSuccess {
             mallMerchandiseService.updateMerchandiseStock(stockDTOs)
         }
@@ -111,7 +112,7 @@ class MallOrderService : ServiceImpl<MallOrderMapper, MallOrder>() {
             if (!merchandiseMap.containsKey(mallShoppingCartItemVO.merchandiseId)) {
                 MallException.fail(ServiceResult.SHOPPING_ITEM_ERROR)
             }
-            val buyCount = mallShoppingCartItemVO.goodsCount ?: 0
+            val buyCount = mallShoppingCartItemVO.merchandiseCount ?: 0
             val stockNum = merchandiseMap[mallShoppingCartItemVO.merchandiseId]?.stockNum ?: 0
             if (buyCount > stockNum) {
                 MallException.fail(ServiceResult.SHOPPING_ITEM_COUNT_ERROR)
@@ -131,7 +132,7 @@ class MallOrderService : ServiceImpl<MallOrderMapper, MallOrder>() {
     private fun calculateMerchandisePrice(itemsForSave: List<MallShoppingCartItemVO>): Int {
         val priceTotal = itemsForSave.fold(0) { acc, mallShoppingCartItemVo ->
             val sellPrice = mallShoppingCartItemVo.sellingPrice ?: 0
-            val sellCount = mallShoppingCartItemVo.goodsCount ?: 0
+            val sellCount = mallShoppingCartItemVo.merchandiseCount ?: 0
             acc + sellPrice * sellCount
         }
         if (priceTotal < 1) {
@@ -141,13 +142,8 @@ class MallOrderService : ServiceImpl<MallOrderMapper, MallOrder>() {
     }
 
     fun getOrderDetail(orderNumber: String, loginMallUser: MallUserLogin): MallOrderDetailVo {
-        val queryWrapper = lambdaQueryWrapper<MallOrder>()
-                .eq(MallOrder::orderNo, orderNumber)
-                .eq(MallOrder::isDeleted, YesOrNo.NO.code)
-        val mallOrder = mallOrderMapper.selectOne(queryWrapper) ?: MallException.fail(ServiceResult.DATA_NOT_EXIST)
-        if (mallOrder.userId != loginMallUser.userId) {
-            MallException.fail(ServiceResult.REQUEST_FORBIDEN_ERROR)
-        }
+        val mallOrder = getMallOrderByOrderNumber(orderNumber)
+
         val orderItems = mallOrderItemService.selectByOrderNumber(mallOrder.id)
         if (orderItems.isNullOrEmpty()) {
             MallException.fail(ServiceResult.ORDER_ITEM_NULL_ERROR)
@@ -157,6 +153,92 @@ class MallOrderService : ServiceImpl<MallOrderMapper, MallOrder>() {
             it.orderStatusString = NewBeeMallOrderStatus.getNewBeeMallOrderStatusByStatus(it.orderStatus).desc
             it.payTypeString = PayType.getPayTypeByType(it.payType).desc
             it.newBeeMallOrderItemVOS = mallOrderItemVos
+        }
+    }
+
+    fun orderList(pageRequest: PageRequest<MallOrder>, status: Int?, loginMallUser: MallUserLogin): IPage<MallOrderListVo> {
+        val queryWrapper = lambdaQueryWrapper<MallOrder>()
+                .eq(status != null, MallOrder::orderStatus, status)
+                .eq(MallOrder::userId, loginMallUser.userId)
+                .orderByDesc(MallOrder::createTime)
+        val page = mallOrderMapper.selectPage(pageRequest, queryWrapper)
+        val mallOrderList = page.records
+        var result = emptyList<MallOrderListVo>()
+        if (mallOrderList.isNotEmpty()) {
+            result = mallOrderList.copyList(MallOrderListVo::class.java)
+            result.forEach {
+                it.orderStatusString = NewBeeMallOrderStatus.getNewBeeMallOrderStatusByStatus(it.orderStatus).desc
+            }
+
+            val orderIds = mallOrderList.mapNotNull { it.id }
+            if (!orderIds.isNullOrEmpty()) {
+                val orderItems = mallOrderItemService.list(lambdaQueryWrapper<MallOrderItem>().`in`(MallOrderItem::orderId, orderIds))
+                val itemByOrderIdMap = orderItems.groupBy { it.orderId }
+                result.forEach {
+                    if (itemByOrderIdMap.containsKey(it.id)) {
+                        itemByOrderIdMap[it.id]?.let { itemList ->
+                            it.mallOrderItemVos = itemList.copyList(MallOrderItemVo::class.java)
+                        }
+                    }
+                }
+            }
+        }
+        return Page<MallOrderListVo>().also {
+            it.records = result
+            it.size = page.size
+            it.current = page.current
+            it.total = page.total
+        }
+    }
+
+    @Transactional(rollbackFor = [Exception::class])
+    fun cancelOrder(orderNumber: String, loginMallUser: MallUserLogin) {
+        val mallOrder = getMallOrderByOrderNumber(orderNumber, loginMallUser)
+                .also {
+                    it.orderStatus = NewBeeMallOrderStatus.ORDER_CLOSED_BY_MANUALLY.orderStatus
+                    it.updateTime = LocalDateTime.now()
+                }
+        validateUpdateSuccess {
+            mallOrderMapper.updateById(mallOrder)
+        }
+    }
+
+    private fun getMallOrderByOrderNumber(orderNumber: String, loginMallUser: MallUserLogin? = null): MallOrder {
+        val queryWrapper = lambdaQueryWrapper<MallOrder>()
+                .eq(MallOrder::orderNo, orderNumber)
+                .eq(MallOrder::isDeleted, YesOrNo.NO.code)
+        val mallOrder = mallOrderMapper.selectOne(queryWrapper) ?: MallException.fail(ServiceResult.DATA_NOT_EXIST)
+        if (loginMallUser != null && mallOrder.userId != loginMallUser.userId) {
+            MallException.fail(ServiceResult.REQUEST_FORBIDEN_ERROR)
+        }
+        return mallOrder
+    }
+
+    fun finishOrder(orderNumber: String, loginMallUser: MallUserLogin) {
+        val mallOrder = getMallOrderByOrderNumber(orderNumber, loginMallUser)
+                .also {
+                    it.orderStatus = NewBeeMallOrderStatus.ORDER_SUCCESS.orderStatus
+                    it.updateTime = LocalDateTime.now()
+                }
+        validateUpdateSuccess {
+            mallOrderMapper.updateById(mallOrder)
+        }
+    }
+
+    fun paySuccess(orderNumber: String, payType: Int) {
+        val mallOrder = getMallOrderByOrderNumber(orderNumber)
+        if (mallOrder.orderStatus != NewBeeMallOrderStatus.ORDER_PRE_PAY.orderStatus) {
+            MallException.fail(ServiceResult.PAY_SUCCESS_ERROR)
+        }
+        mallOrder.apply {
+            orderStatus = NewBeeMallOrderStatus.ORDER_PAID.orderStatus
+            this.payType = payType
+            payStatus = PayStatus.PAY_SUCCESS.payStatus
+            payTime = LocalDateTime.now()
+            updateTime = LocalDateTime.now()
+        }
+        validateUpdateSuccess {
+            mallOrderMapper.updateById(mallOrder)
         }
     }
 }
